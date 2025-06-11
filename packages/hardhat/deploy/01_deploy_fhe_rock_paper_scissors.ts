@@ -3,12 +3,11 @@ import { DeployFunction } from "hardhat-deploy/types";
 import { Contract } from "ethers";
 
 /**
- * Deploys a contract named "FHECounter" using the deployer account and
- * constructor arguments set to the deployer address
+ * Deploys a contract named "FHERockPaperScissors" using the deployer account
  *
  * @param hre HardhatRuntimeEnvironment object.
  */
-const deployFHECounter: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
+const deployFHERockPaperScissors: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   /*
     On localhost, the deployer account is the one that comes with Hardhat, which is already funded.
 
@@ -22,7 +21,7 @@ const deployFHECounter: DeployFunction = async function (hre: HardhatRuntimeEnvi
   const { deployer } = await hre.getNamedAccounts();
   const { deploy } = hre.deployments;
 
-  await deploy("FHECounter", {
+  await deploy("FHERockPaperScissors", {
     from: deployer,
     // Contract constructor arguments
     args: [],
@@ -33,12 +32,12 @@ const deployFHECounter: DeployFunction = async function (hre: HardhatRuntimeEnvi
   });
 
   // Get the deployed contract to interact with it after deploying.
-  const fHECounter = await hre.ethers.getContract<Contract>("FHECounter", deployer);
-  console.log("FHECounter deployed at:", fHECounter.target);
+  const fHERockPaperScissors = await hre.ethers.getContract<Contract>("FHERockPaperScissors", deployer);
+  console.log("FHERockPaperScissors deployed at:", fHERockPaperScissors.target);
 };
 
-export default deployFHECounter;
+export default deployFHERockPaperScissors;
 
 // Tags are useful if you have multiple deploy files and only want to run one of them.
-// e.g. yarn deploy --tags FHECounter
-deployFHECounter.tags = ["FHECounter"];
+// e.g. yarn deploy --tags FHERockPaperScissors
+deployFHERockPaperScissors.tags = ["FHERockPaperScissors"];
