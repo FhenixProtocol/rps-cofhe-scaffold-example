@@ -3,7 +3,7 @@ import path from "path";
 import { hardhat } from "viem/chains";
 import { AddressComponent } from "~~/app/blockexplorer/_components/AddressComponent";
 import deployedContracts from "~~/contracts/deployedContracts";
-import { isZeroAddress } from "~~/utils/scaffold-eth/common";
+import { ZERO_ADDRESS, isZeroAddress } from "~~/utils/scaffold-eth/common";
 import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 
 type PageProps = {
@@ -78,8 +78,7 @@ const getContractData = async (address: string) => {
 };
 
 export function generateStaticParams() {
-  // An workaround to enable static exports in Next.js, generating single dummy page.
-  return [{ address: "0x0000000000000000000000000000000000000000" }];
+  return [{ address: ZERO_ADDRESS }];
 }
 
 const AddressPage = async (props: PageProps) => {

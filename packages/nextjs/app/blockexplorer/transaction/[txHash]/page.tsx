@@ -1,16 +1,22 @@
 import TransactionComp from "../_components/TransactionComp";
-import type { NextPage } from "next";
+import { NextPage } from "next";
 import { Hash } from "viem";
-import { isZeroAddress } from "~~/utils/scaffold-eth/common";
+import { ZERO_ADDRESS, isZeroAddress } from "~~/utils/scaffold-eth/common";
+import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
 
 type PageProps = {
   params: Promise<{ txHash?: Hash }>;
 };
 
+export const metadata = getMetadata({
+  title: "Transaction Detail",
+  description: "Transaction Detail",
+});
+
 export function generateStaticParams() {
-  // An workaround to enable static exports in Next.js, generating single dummy page.
-  return [{ txHash: "0x0000000000000000000000000000000000000000" }];
+  return [{ txHash: ZERO_ADDRESS }];
 }
+
 const TransactionPage: NextPage<PageProps> = async (props: PageProps) => {
   const params = await props.params;
   const txHash = params?.txHash as Hash;

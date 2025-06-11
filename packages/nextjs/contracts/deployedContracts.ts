@@ -6,8 +6,8 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 
 const deployedContracts = {
   31337: {
-    FHECounter: {
-      address: "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
+    FHERockPaperScissors: {
+      address: "0xa85233C63b9Ee964Add6F2cffe00Fd84eb32338f",
       abi: [
         {
           inputs: [],
@@ -42,11 +42,125 @@ const deployedContracts = {
           type: "error",
         },
         {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "uint256",
+              name: "gameId",
+              type: "uint256",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "creator",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "betAmount",
+              type: "uint256",
+            },
+          ],
+          name: "GameCreated",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "uint256",
+              name: "gameId",
+              type: "uint256",
+            },
+          ],
+          name: "GameDrawn",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "uint256",
+              name: "gameId",
+              type: "uint256",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "winner",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "prize",
+              type: "uint256",
+            },
+          ],
+          name: "GameFinished",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "uint256",
+              name: "gameId",
+              type: "uint256",
+            },
+          ],
+          name: "GameWaitingForDecryption",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "uint256",
+              name: "gameId",
+              type: "uint256",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "player",
+              type: "address",
+            },
+          ],
+          name: "MoveSubmitted",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "uint256",
+              name: "gameId",
+              type: "uint256",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "player2",
+              type: "address",
+            },
+          ],
+          name: "PlayerJoined",
+          type: "event",
+        },
+        {
           inputs: [],
-          name: "count",
+          name: "MOVE_TIMEOUT",
           outputs: [
             {
-              internalType: "euint32",
+              internalType: "uint256",
               name: "",
               type: "uint256",
             },
@@ -55,21 +169,354 @@ const deployedContracts = {
           type: "function",
         },
         {
-          inputs: [],
-          name: "decrement",
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "gameId",
+              type: "uint256",
+            },
+          ],
+          name: "cancelGame",
           outputs: [],
           stateMutability: "nonpayable",
           type: "function",
         },
         {
           inputs: [],
-          name: "increment",
+          name: "createGame",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "gameId",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "payable",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "gameCounter",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          name: "games",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "gameId",
+              type: "uint256",
+            },
+            {
+              internalType: "address",
+              name: "player1",
+              type: "address",
+            },
+            {
+              internalType: "address",
+              name: "player2",
+              type: "address",
+            },
+            {
+              internalType: "euint8",
+              name: "player1Choice",
+              type: "uint256",
+            },
+            {
+              internalType: "euint8",
+              name: "player2Choice",
+              type: "uint256",
+            },
+            {
+              internalType: "bool",
+              name: "player1ChoiceReady",
+              type: "bool",
+            },
+            {
+              internalType: "bool",
+              name: "player2ChoiceReady",
+              type: "bool",
+            },
+            {
+              internalType: "address",
+              name: "winner",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "betAmount",
+              type: "uint256",
+            },
+            {
+              internalType: "enum FHERockPaperScissors.GameState",
+              name: "state",
+              type: "uint8",
+            },
+            {
+              internalType: "uint256",
+              name: "createdAt",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "gameId",
+              type: "uint256",
+            },
+          ],
+          name: "getGame",
+          outputs: [
+            {
+              components: [
+                {
+                  internalType: "uint256",
+                  name: "gameId",
+                  type: "uint256",
+                },
+                {
+                  internalType: "address",
+                  name: "player1",
+                  type: "address",
+                },
+                {
+                  internalType: "address",
+                  name: "player2",
+                  type: "address",
+                },
+                {
+                  internalType: "euint8",
+                  name: "player1Choice",
+                  type: "uint256",
+                },
+                {
+                  internalType: "euint8",
+                  name: "player2Choice",
+                  type: "uint256",
+                },
+                {
+                  internalType: "bool",
+                  name: "player1ChoiceReady",
+                  type: "bool",
+                },
+                {
+                  internalType: "bool",
+                  name: "player2ChoiceReady",
+                  type: "bool",
+                },
+                {
+                  internalType: "address",
+                  name: "winner",
+                  type: "address",
+                },
+                {
+                  internalType: "uint256",
+                  name: "betAmount",
+                  type: "uint256",
+                },
+                {
+                  internalType: "enum FHERockPaperScissors.GameState",
+                  name: "state",
+                  type: "uint8",
+                },
+                {
+                  internalType: "uint256",
+                  name: "createdAt",
+                  type: "uint256",
+                },
+              ],
+              internalType: "struct FHERockPaperScissors.Game",
+              name: "",
+              type: "tuple",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "getGameCount",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "enum FHERockPaperScissors.GameState",
+              name: "targetState",
+              type: "uint8",
+            },
+          ],
+          name: "getGamesByState",
+          outputs: [
+            {
+              components: [
+                {
+                  internalType: "uint256",
+                  name: "gameId",
+                  type: "uint256",
+                },
+                {
+                  internalType: "address",
+                  name: "player1",
+                  type: "address",
+                },
+                {
+                  internalType: "address",
+                  name: "player2",
+                  type: "address",
+                },
+                {
+                  internalType: "euint8",
+                  name: "player1Choice",
+                  type: "uint256",
+                },
+                {
+                  internalType: "euint8",
+                  name: "player2Choice",
+                  type: "uint256",
+                },
+                {
+                  internalType: "bool",
+                  name: "player1ChoiceReady",
+                  type: "bool",
+                },
+                {
+                  internalType: "bool",
+                  name: "player2ChoiceReady",
+                  type: "bool",
+                },
+                {
+                  internalType: "address",
+                  name: "winner",
+                  type: "address",
+                },
+                {
+                  internalType: "uint256",
+                  name: "betAmount",
+                  type: "uint256",
+                },
+                {
+                  internalType: "enum FHERockPaperScissors.GameState",
+                  name: "state",
+                  type: "uint8",
+                },
+                {
+                  internalType: "uint256",
+                  name: "createdAt",
+                  type: "uint256",
+                },
+              ],
+              internalType: "struct FHERockPaperScissors.Game[]",
+              name: "",
+              type: "tuple[]",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "player",
+              type: "address",
+            },
+          ],
+          name: "getPlayerGames",
+          outputs: [
+            {
+              internalType: "uint256[]",
+              name: "",
+              type: "uint256[]",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "gameId",
+              type: "uint256",
+            },
+          ],
+          name: "joinGame",
+          outputs: [],
+          stateMutability: "payable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          name: "playerGames",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "gameId",
+              type: "uint256",
+            },
+          ],
+          name: "safelyRevealWinner",
           outputs: [],
           stateMutability: "nonpayable",
           type: "function",
         },
         {
           inputs: [
+            {
+              internalType: "uint256",
+              name: "gameId",
+              type: "uint256",
+            },
             {
               components: [
                 {
@@ -93,12 +540,12 @@ const deployedContracts = {
                   type: "bytes",
                 },
               ],
-              internalType: "struct InEuint32",
-              name: "value",
+              internalType: "struct InEuint8",
+              name: "encryptedChoice",
               type: "tuple",
             },
           ],
-          name: "set",
+          name: "submitMove",
           outputs: [],
           stateMutability: "nonpayable",
           type: "function",
@@ -107,7 +554,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     Multicall3: {
-      address: "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
+      address: "0x322813Fd9A801c5507c9de605d63CEA4f2CE6c44",
       abi: [
         {
           inputs: [
